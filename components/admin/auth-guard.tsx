@@ -5,34 +5,27 @@ import type React from "react"
 import { useAuth } from "@/contexts/auth-context"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
-import { Loader2 } from "lucide-react"
 
-interface AuthGuardProps {
-  children: React.ReactNode
-}
-
-export function AuthGuard({ children }: AuthGuardProps) {
-  const { user, isAuthenticated } = useAuth()
+export function AuthGuard({ children }: { children: React.ReactNode }) {
+  const { user, isLoading } = useAuth()
   const router = useRouter()
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isLoading && !user) {
       router.push("/admin/login")
-      return
     }
+  }, [user, isLoading, router])
 
-    if (user?.role !== "admin") {
-      router.push("/")
-      return
-    }
-  }, [isAuthenticated, user, router])
-
-  if (!isAuthenticated || user?.role !== "admin") {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin text-green-600" />
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
       </div>
     )
+  }
+
+  if (!user) {
+    return null
   }
 
   return <>{children}</>

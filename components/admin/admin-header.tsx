@@ -1,41 +1,34 @@
 "use client"
 
-import { useAuth } from "@/contexts/auth-context"
+import { Bell, Search, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { LanguageToggle } from "@/components/language-toggle"
-import { LogOut, User } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
+import { useAuth } from "@/contexts/auth-context"
 
 export function AdminHeader() {
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
 
   return (
     <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">School Management System</h1>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Chandkathi Adarsha Girls' Secondary School</p>
+        <div className="flex items-center space-x-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <Input type="search" placeholder="Search..." className="pl-10 w-64" />
+          </div>
         </div>
 
-        <div className="flex items-center gap-4">
-          <ThemeToggle />
-          <LanguageToggle />
+        <div className="flex items-center space-x-4">
+          <Button variant="ghost" size="icon">
+            <Bell className="w-5 h-5" />
+          </Button>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="flex items-center gap-2">
-                <User className="h-4 w-4" />
-                <span className="hidden md:inline">{user?.name}</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={logout} className="text-red-600">
-                <LogOut className="h-4 w-4 mr-2" />
-                Logout
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+              <User className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{user?.name || "Admin"}</span>
+          </div>
         </div>
       </div>
     </header>
