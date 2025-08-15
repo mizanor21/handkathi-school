@@ -7,7 +7,7 @@ interface User {
   id: string
   name: string
   email: string
-  role: "admin" | "teacher"
+  role: "user"
 }
 
 interface AuthContextType {
@@ -18,24 +18,6 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
-
-// Demo users for authentication
-const demoUsers: (User & { password: string })[] = [
-  {
-    id: "1",
-    name: "Admin User",
-    email: "admin@chandkathi-school.edu.bd",
-    password: "admin123",
-    role: "admin",
-  },
-  {
-    id: "2",
-    name: "Teacher User",
-    email: "teacher@chandkathi-school.edu.bd",
-    password: "teacher123",
-    role: "teacher",
-  },
-]
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
@@ -52,13 +34,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    const foundUser = demoUsers.find((u) => u.email === email && u.password === password)
-    if (foundUser) {
-      const { password: _, ...userWithoutPassword } = foundUser
-      setUser(userWithoutPassword)
-      localStorage.setItem("school-auth-user", JSON.stringify(userWithoutPassword))
-      return true
-    }
     return false
   }
 

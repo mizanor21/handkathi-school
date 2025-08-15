@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${notoSansBengali.variable} antialiased`} suppressHydrationWarning>
       <body className="transition-colors duration-300">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <AuthProvider>
             <LanguageProvider>
               <ContentProvider>{children}</ContentProvider>
